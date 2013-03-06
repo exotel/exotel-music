@@ -28,10 +28,11 @@
       font-size: 100%;
       font-family: 'PT Sans', sans-serif;
       color: #333;
+      margin: 0px;
     }
 
     .container {
-      width: 600px;
+      width: 530px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -48,9 +49,21 @@
       border: 1px solid #CCC;
     }
 
-    .board {
+    .footer {
+      margin: 0px;
       position: fixed;
       bottom: 0px;
+      text-align: center;
+      width: 100%;
+      font-size: 90%;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      background: #333;
+      color: #EEE;
+    }
+
+    .footer a{
+      color: #EEE;
     }
   </style>
 
@@ -123,5 +136,8 @@
     <input type="text" id="number-input" size="14" disabled="disabled" value="loading..." placeholder="mobile number"/>
   </div>
 
+  <div class="footer">
+    Made possible with <a href="https://github.com/mudcube/MIDI.js">MIDI.js</a>
+  </div>
 </body>
 </html>
