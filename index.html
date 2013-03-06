@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <!-- midi.js package -->
+  <script src="./js/MIDI/AudioDetect.js" type="text/javascript"></script>
+  <script src="./js/MIDI/LoadPlugin.js" type="text/javascript"></script>
+  <script src="./js/MIDI/Plugin.js" type="text/javascript"></script>
+  <script src="./js/MIDI/Player.js" type="text/javascript"></script>
+  <script src="./js/Window/DOMLoader.XMLHttp.js" type="text/javascript"></script>
+  <script src="./js/Window/DOMLoader.script.js" type="text/javascript"></script>
+  <!-- extras -->
+  <script src="./js/extras/WebMIDIAPI.js" type="text/javascript"></script>
+  <script src="./js/extras/Base64.js" type="text/javascript"></script>
+  <script src="./js/extras/base64binary.js" type="text/javascript"></script>
+
+  <style type="text/css">
+
+    * {
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    body{
+      font-size: 14px;
+    }
+
+    .container {
+      width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .brand {
+      margin-bottom: 40px;
+    }
+
+    #number-input {
+      padding: 10px;
+      font-size: 400%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px 3px rgba(10, 10, 10, 0.65);
+      border: 1px solid #CCC;
+      display: none;
+    }
+  </style>
+
+  <script type="text/javascript">
+
+    function songFor(number) {
+      var number = number.split("");
+      number     = number.concat(number.reverse()).concat(number).concat(number.reverse());
+
+      var velocity    = 127,
+          delay       = 0.3,
+          noteSpacing = 0.5,
+          notes       = {
+            "0": 50,
+            "1": 55,
+            "2": 57,
+            "3": 60,
+            "4": 65,
+            "5": 70,
+            "6": 74,
+            "7": 75,
+            "8": 77,
+            "9": 82
+          };
+
+      for(var i=0; i < number.length; i++)
+      {
+        var note = notes[number[i]];
+        MIDI.noteOn(0, note, velocity, delay * i);
+        MIDI.noteOff(0, note, (delay * i) + noteSpacing);
+      }
+    }
+
+    window.onload = function () {
+
+      var numberInput = document.getElementById("number-input");
+      var numberInputKeypressListener = function(event){
+        if(event.keyCode == 13)
+        {
+          console.log(this.value);
+          songFor(this.value);
+        }
+      };
+
+      numberInput.addEventListener("keypress", numberInputKeypressListener);
+
+      MIDI.loadPlugin({
+        soundfontUrl: "./soundfont/",
+        instrument: "acoustic_grand_piano",
+        callback: function() {
+          MIDI.setVolume(0, 127);
+          document.getElementById("loading").style.display = "none";
+          document.getElementById("number-input").style.display = "";
+          console.log("loaded");
+        }
+      });
+    };
+
+  </script>
+</head>
+<body>
+
+  <div class="container">
+    <img src="./images/exotel-logo.png" class="brand"/> music
+    <input type="text" id="number-input" size="14"/>
+    <div id="loading">loading...</div>
+  </div>
+
+</body>
+</html>
