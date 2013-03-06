@@ -86,9 +86,11 @@
         };
 
 
-    function songFor(number) {
-      var number = number.split("");
-      number     = number.concat(number.reverse()).concat(number).concat(number.reverse());
+    function songFor(_number) {
+      var number = _number.split(""),
+          reversedNumber = _number.split("").reverse();
+
+      number     = number.concat(reversedNumber).concat(number);
 
       for(var i=0; i < number.length; i++)
       {
@@ -98,16 +100,16 @@
       }
     }
 
-    function isValidNumber(number) {
-      return (number.match(/^(7|8|9)[0-9]{9}$/) != null) ? true : false;
+    function isValidNumber(_number) {
+      return (_number.match(/^(7|8|9)[0-9]{9}$/) != null) ? true : false;
     }
 
 
     window.onload = function () {
 
       var numberInput = document.getElementById("number-input");
-      var numberInputKeypressListener = function(event){
-        if(event.keyCode == 13 && isValidNumber(this.value))
+      var numberInputKeypressListener = function(_event){
+        if(_event.keyCode == 13 && isValidNumber(this.value))
           songFor(this.value);
       };
 
