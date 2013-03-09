@@ -10,4 +10,5 @@ A web browser would suffice. Just clone the repository and open the `index.html`
 
 ## Credits
 
-* MIDI.js - <https://github.com/mudcube/MIDI.js>
+Made possible with [MIDI.js](https://github.com/mudcube/MIDI.js), this guy [Akash Manohar](http://akash.im) and his bamboo plant.
+
