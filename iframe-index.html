@@ -2,7 +2,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
-  <title>Exotel Music</title>
+  <title>Find the hidden music in your mobile number - Exotel</title>
   <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic' rel='stylesheet' type='text/css'/>
 
   <!-- midi.js package -->
@@ -33,7 +33,7 @@
     }
 
     .container {
-      width: 530px;
+      width: 800px;
       margin-left: auto;
       margin-right: auto;
     }
@@ -42,18 +42,21 @@
       margin-bottom: 40px;
     }
 
-    #number-input {
+    input[type=text] {
       padding: 10px;
-      font-size: 400%;
-      border-radius: 10px;
-      box-shadow: 0 0 20px 3px rgba(10, 10, 10, 0.65);
+      font-size: 370%;
+      box-shadow: 0 0 5px 3px rgba(10, 10, 10, 0.1);
       border: 1px solid #CCC;
+      border-radius: 5px;
     }
 
-    .hint {
-      text-align: right;
-      margin-right: 20px;
-      font-style: italic;
+    input[type=submit] {
+      padding: 10px;
+      font-size: 370%;
+      border-radius: 5px;
+      color: #FFF;
+      background: #1d7dc1;
+      text-transform: uppercase;
     }
 
     .social-buttons {
@@ -61,21 +64,18 @@
       text-align: center;
     }
 
-    .footer {
-      margin: 0px;
-      position: fixed;
-      bottom: 0px;
+    .credits {
+      margin-top: 100px;
       text-align: center;
       width: 100%;
       font-size: 90%;
       padding-top: 3px;
       padding-bottom: 3px;
-      background: #333;
-      color: #EEE;
+      color: #999;
     }
 
-    .footer a{
-      color: #EEE;
+    .credits a{
+      color: #666;
     }
   </style>
 
@@ -116,7 +116,6 @@
       return (_number.match(/^(7|8|9)[0-9]{9}$/) != null) ? true : false;
     }
 
-
     window.onload = function () {
 
       var numberInput = document.getElementById("number-input");
@@ -133,11 +132,18 @@
         callback: function() {
           MIDI.setVolume(0, 127);
           var numberInput = document.getElementById("number-input");
-          numberInput.style.display = "block";
           numberInput.disabled = false;
           numberInput.value = "";
         }
       });
+
+      var submitListener = function() {
+        var numberInput = document.getElementById("number-input");
+        if(isValidNumber(numberInput.value))
+          songFor(numberInput.value);
+      };
+
+      document.getElementById("listen").addEventListener("click", submitListener);
     };
 
   </script>
@@ -145,14 +151,16 @@
 <body>
 
   <div class="container">
+    <img src="./images/exotel-logo.png" class="brand"/>
     <h2 id="title">Find the hidden music in your mobile number</h2>
     <input type="text" id="number-input" size="14" disabled="disabled" value="loading..." placeholder="mobile number"/>
-    <p class="hint">and press enter</p>
-
+    <input type="submit" value="Listen" id="listen"/>
+  
+    <div class="credits">
+      Made possible with <a href="https://github.com/mudcube/MIDI.js">MIDI.js</a> / <a href="http://akash.im">Akash Manohar</a> / <a href="http://github.com/exotel/exotel-music">source</a>
+    </div>
   </div>
 
-  <div class="footer">
-    Made possible with <a href="https://github.com/mudcube/MIDI.js">MIDI.js</a> / <a href="http://akash.im">Akash Manohar</a> / <a href="http://github.com/exotel/exotel-music">source</a>
-  </div>
+
 </body>
 </html>
