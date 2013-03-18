@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+
+  <title>Exotel Music</title>
+  <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700,400italic' rel='stylesheet' type='text/css'/>
+
+  <!-- midi.js package -->
+  <script src="./js/MIDI/AudioDetect.js" type="text/javascript"></script>
+  <script src="./js/MIDI/LoadPlugin.js" type="text/javascript"></script>
+  <script src="./js/MIDI/Plugin.js" type="text/javascript"></script>
+  <script src="./js/MIDI/Player.js" type="text/javascript"></script>
+  <script src="./js/Window/DOMLoader.XMLHttp.js" type="text/javascript"></script>
+  <script src="./js/Window/DOMLoader.script.js" type="text/javascript"></script>
+  <!-- extras -->
+  <script src="./js/extras/WebMIDIAPI.js" type="text/javascript"></script>
+  <script src="./js/extras/Base64.js" type="text/javascript"></script>
+  <script src="./js/extras/base64binary.js" type="text/javascript"></script>
+
+  <style type="text/css">
+
+    * {
+      -moz-box-sizing: border-box;
+      -webkit-box-sizing: border-box;
+      box-sizing: border-box;
+    }
+
+    body{
+      font-size: 100%;
+      font-family: 'PT Sans', sans-serif;
+      color: #333;
+      margin: 0px;
+    }
+
+    .container {
+      width: 530px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .brand {
+      margin-bottom: 40px;
+    }
+
+    #number-input {
+      padding: 10px;
+      font-size: 400%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px 3px rgba(10, 10, 10, 0.65);
+      border: 1px solid #CCC;
+    }
+
+    .hint {
+      text-align: right;
+      margin-right: 20px;
+      font-style: italic;
+    }
+
+    .social-buttons {
+      margin-top: 40px;
+      text-align: center;
+    }
+
+    .footer {
+      margin: 0px;
+      position: fixed;
+      bottom: 0px;
+      text-align: center;
+      width: 100%;
+      font-size: 90%;
+      padding-top: 3px;
+      padding-bottom: 3px;
+      background: #333;
+      color: #EEE;
+    }
+
+    .footer a{
+      color: #EEE;
+    }
+  </style>
+
+  <script type="text/javascript">
+
+    var velocity    = 127,
+        delay       = 0.3,
+        noteSpacing = 0.5,
+        notes       = {
+          "0": 50,
+          "1": 55,
+          "2": 57,
+          "3": 60,
+          "4": 65,
+          "5": 70,
+          "6": 74,
+          "7": 75,
+          "8": 77,
+          "9": 82
+        };
+
+
+    function songFor(_number) {
+      var number = _number.split(""),
+          reversedNumber = _number.split("").reverse();
+
+      number     = number.concat(reversedNumber).concat(number);
+
+      for(var i=0; i < number.length; i++)
+      {
+        var note  = notes[number[i]];
+        MIDI.noteOn(0, note, velocity, delay * i);
+        MIDI.noteOff(0, note, (delay * i) + noteSpacing);
+      }
+    }
+
+    function isValidNumber(_number) {
+      return (_number.match(/^(7|8|9)[0-9]{9}$/) != null) ? true : false;
+    }
+
+
+    window.onload = function () {
+
+      var numberInput = document.getElementById("number-input");
+      var numberInputKeypressListener = function(_event){
+        if(_event.keyCode == 13 && isValidNumber(this.value))
+          songFor(this.value);
+      };
+
+      numberInput.addEventListener("keypress", numberInputKeypressListener);
+
+      MIDI.loadPlugin({
+        soundfontUrl: "./soundfont/",
+        instrument: "acoustic_grand_piano",
+        callback: function() {
+          MIDI.setVolume(0, 127);
+          var numberInput = document.getElementById("number-input");
+          numberInput.style.display = "block";
+          numberInput.disabled = false;
+          numberInput.value = "";
+        }
+      });
+    };
+
+  </script>
+</head>
+<body>
+
+  <div class="container">
+    <h2 id="title">Find the hidden music in your mobile number</h2>
+    <input type="text" id="number-input" size="14" disabled="disabled" value="loading..." placeholder="mobile number"/>
+    <p class="hint">and press enter</p>
+
+  </div>
+
+  <div class="footer">
+    Made possible with <a href="https://github.com/mudcube/MIDI.js">MIDI.js</a> / <a href="http://akash.im">Akash Manohar</a> / <a href="http://github.com/exotel/exotel-music">source</a>
+  </div>
+</body>
+</html>
