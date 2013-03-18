@@ -64,21 +64,18 @@
       text-align: center;
     }
 
-    .footer {
-      margin: 0px;
-      position: fixed;
-      bottom: 0px;
+    .credits {
+      margin-top: 100px;
       text-align: center;
       width: 100%;
       font-size: 90%;
       padding-top: 3px;
       padding-bottom: 3px;
-      background: #333;
-      color: #EEE;
+      color: #999;
     }
 
-    .footer a{
-      color: #EEE;
+    .credits a{
+      color: #666;
     }
   </style>
 
@@ -158,11 +155,12 @@
     <h2 id="title">Find the hidden music in your mobile number</h2>
     <input type="text" id="number-input" size="14" disabled="disabled" value="loading..." placeholder="mobile number"/>
     <input type="submit" value="Listen" id="listen"/>
-
+  
+    <div class="credits">
+      Made possible with <a href="https://github.com/mudcube/MIDI.js">MIDI.js</a> / <a href="http://akash.im">Akash Manohar</a> / <a href="http://github.com/exotel/exotel-music">source</a>
+    </div>
   </div>
 
-  <div class="footer">
-    Made possible with <a href="https://github.com/mudcube/MIDI.js">MIDI.js</a> / <a href="http://akash.im">Akash Manohar</a> / <a href="http://github.com/exotel/exotel-music">source</a>
-  </div>
+
 </body>
 </html>
